@@ -42,7 +42,7 @@
 #ifdef PBRT_IS_WINDOWS
 #define PBRT_CPU_GPU_LAMBDA(...) [ =, *this ] PBRT_CPU_GPU(__VA_ARGS__) mutable
 #else
-#define PBRT_CPU_GPU_LAMBDA(...) [=] PBRT_CPU_GPU(__VA_ARGS__)
+#define PBRT_CPU_GPU_LAMBDA(...) [=, this] PBRT_CPU_GPU(__VA_ARGS__)
 #endif
 
 // Define Cache Line Size Constant

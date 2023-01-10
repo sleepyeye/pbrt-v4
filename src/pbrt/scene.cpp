@@ -893,7 +893,7 @@ void BasicScene::startLoadingNormalMaps(const ParameterDictionary &parameters) {
         // It's already in flight.
         return;
 
-    auto create = [=](std::string filename) {
+    auto create = [=, this](std::string filename) {
         Allocator alloc = threadAllocators.Get();
         ImageAndMetadata immeta =
             Image::Read(filename, Allocator(), ColorEncoding::Linear);
@@ -941,7 +941,7 @@ void BasicScene::AddFloatTexture(std::string name, TextureSceneEntity texture) {
     }
     loadingTextureFilenames.insert(filename);
 
-    auto create = [=](TextureSceneEntity texture) {
+    auto create = [=, this](TextureSceneEntity texture) {
         Allocator alloc = threadAllocators.Get();
 
         pbrt::Transform renderFromTexture = texture.renderFromObject.startTransform;
@@ -985,7 +985,7 @@ void BasicScene::AddSpectrumTexture(std::string name, TextureSceneEntity texture
 
     asyncSpectrumTextures.push_back(std::make_pair(name, texture));
 
-    auto create = [=](TextureSceneEntity texture) {
+    auto create = [=, this](TextureSceneEntity texture) {
         Allocator alloc = threadAllocators.Get();
 
         pbrt::Transform renderFromTexture = texture.renderFromObject.startTransform;

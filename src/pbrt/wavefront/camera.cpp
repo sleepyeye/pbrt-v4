@@ -18,7 +18,7 @@ namespace pbrt {
 void WavefrontPathIntegrator::GenerateCameraRays(int y0, Transform movingFromCamera,
                                                  int sampleIndex) {
     // Define _generateRays_ lambda function
-    auto generateRays = [=](auto sampler) {
+    auto generateRays = [=, this](auto sampler) {
         using ConcreteSampler = std::remove_reference_t<decltype(*sampler)>;
         if constexpr (!std::is_same_v<ConcreteSampler, MLTSampler> &&
                       !std::is_same_v<ConcreteSampler, DebugMLTSampler>)
