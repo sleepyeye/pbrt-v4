@@ -17,7 +17,7 @@ namespace pbrt {
 
 // WavefrontPathIntegrator Sampler Methods
 void WavefrontPathIntegrator::GenerateRaySamples(int wavefrontDepth, int sampleIndex) {
-    auto generateSamples = [=, this](auto sampler) {
+    auto generateSamples = [=](auto sampler) {
         using ConcreteSampler = std::remove_reference_t<decltype(*sampler)>;
         if constexpr (!std::is_same_v<ConcreteSampler, MLTSampler> &&
                       !std::is_same_v<ConcreteSampler, DebugMLTSampler>)

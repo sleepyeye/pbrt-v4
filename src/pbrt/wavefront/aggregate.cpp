@@ -39,7 +39,7 @@ void CPUAggregate::IntersectClosest(int maxRays, const RayQueue *rayQueue,
                                     MediumSampleQueue *mediumSampleQueue,
                                     RayQueue *nextRayQueue) const {
     // _CPUAggregate::IntersectClosest()_ method implementation
-    ParallelFor(0, rayQueue->Size(), [=, this](int index) {
+    ParallelFor(0, rayQueue->Size(), [=](int index) {
         const RayWorkItem r = (*rayQueue)[index];
         // Intersect _r_'s ray with the scene and enqueue resulting work
         if (!aggregate) {
@@ -60,7 +60,7 @@ void CPUAggregate::IntersectClosest(int maxRays, const RayQueue *rayQueue,
 void CPUAggregate::IntersectShadow(int maxRays, ShadowRayQueue *shadowRayQueue,
                                    SOA<PixelSampleState> *pixelSampleState) const {
     // Intersect shadow rays from _shadowRayQueue_ in parallel
-    ParallelFor(0, shadowRayQueue->Size(), [=, this](int index) {
+    ParallelFor(0, shadowRayQueue->Size(), [=](int index) {
         const ShadowRayWorkItem w = (*shadowRayQueue)[index];
         bool hit = aggregate.IntersectP(w.ray, w.tMax);
         RecordShadowRayResult(w, pixelSampleState, hit);
@@ -69,7 +69,7 @@ void CPUAggregate::IntersectShadow(int maxRays, ShadowRayQueue *shadowRayQueue,
 
 void CPUAggregate::IntersectShadowTr(int maxRays, ShadowRayQueue *shadowRayQueue,
                                      SOA<PixelSampleState> *pixelSampleState) const {
-    ParallelFor(0, shadowRayQueue->Size(), [=, this](int index) {
+    ParallelFor(0, shadowRayQueue->Size(), [=](int index) {
         const ShadowRayWorkItem w = (*shadowRayQueue)[index];
         pstd::optional<ShapeIntersection> si;
         TraceTransmittance(
@@ -89,7 +89,7 @@ void CPUAggregate::IntersectShadowTr(int maxRays, ShadowRayQueue *shadowRayQueue
 
 void CPUAggregate::IntersectOneRandom(
     int maxRays, SubsurfaceScatterQueue *subsurfaceScatterQueue) const {
-    ParallelFor(0, subsurfaceScatterQueue->Size(), [=, this](int index) {
+    ParallelFor(0, subsurfaceScatterQueue->Size(), [=](int index) {
         const SubsurfaceScatterWorkItem &w = (*subsurfaceScatterQueue)[index];
         uint64_t seed = Hash(w.p0, w.p1);
 

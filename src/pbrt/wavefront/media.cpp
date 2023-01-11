@@ -106,7 +106,7 @@ void WavefrontPathIntegrator::SampleMediumInteraction(int wavefrontDepth) {
                         r_u *= T_maj * mp.sigma_s / pr;
 
                         // Enqueue medium scattering work.
-                        auto enqueue = [=, this](auto ptr) {
+                        auto enqueue = [=](auto ptr) {
                             using PhaseFunction = typename std::remove_const_t<
                                 std::remove_reference_t<decltype(*ptr)>>;
                             mediumScatterQueue->Push(MediumScatterWorkItem<PhaseFunction>{
@@ -220,7 +220,7 @@ void WavefrontPathIntegrator::SampleMediumInteraction(int wavefrontDepth) {
 
             PBRT_DBG("Enqueuing for material eval, mtl tag %d", material.Tag());
 
-            auto enqueue = [=, this](auto ptr) {
+            auto enqueue = [=](auto ptr) {
                 using Material = typename std::remove_reference_t<decltype(*ptr)>;
                 q->Push<MaterialEvalWorkItem<Material>>(
                     MaterialEvalWorkItem<Material>{ptr,
